@@ -5,6 +5,7 @@ import hello.hellospring.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,9 +59,19 @@ class MemberServiceTest {
 
     @Test
     void 멤버찾기() {
+        assertThat(new ArrayList<>(memberRepository.findAll())).isEqualTo(memberService.findMembers());
     }
 
     @Test
     void findOne() {
+        //given
+        Member member = new Member();
+        memberRepository.save(member);
+
+        //when
+        Member result = memberService.findOne(member.getId()).get();
+
+        //then
+        assertThat(member).isEqualTo(result);
     }
 }
